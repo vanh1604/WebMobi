@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Productitem = ({ name, image, price, id }) => {
   return (
-    <Link to={`/${id}`} className="text-gray-700 cursor-pointer">
+    <Link to={`/product/${id}`} className="text-gray-700 cursor-pointer">
       <div className="overflow-hidden flex justify-center items-center h-[85%]">
         <img
           className="hover:scale-110 transition ease-in-out "

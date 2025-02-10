@@ -7,6 +7,7 @@ import Collection from "./pages/Collection";
 import Navbar from "./components/Navbar";
 import Category from "./pages/Category";
 import Categories from "./components/Categories";
+import NotFound from "./pages/NotFound";
 function App() {
   
   return (
@@ -17,9 +18,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/:id" element={<Product />} />
+        <Route path="/product/:id" element={<Product />} />
         <Route path="/category/:id" element={<Category />} />
         <Route path="/collection" element={<Collection />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );
