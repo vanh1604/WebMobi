@@ -1,29 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/react.svg";
 import { ShopContext } from "../context/ShopContext";
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const { products } = useContext(ShopContext);
   const [search, setSearch] = useState("");
   const [filteredProduct, setFilteredProduct] = useState([]);
   const [show, setShow] = useState(true);
+  const navigate = useNavigate();
   const handleSearch = () => {
-    if (search.trim() === "") {
-      setFilteredProduct([]);
-      return;
-    }
-    const filtered = products.filter((item) =>
-      item?.name?.toLowerCase().includes(search.toLowerCase())
-    );
-    console.log(filtered);
-    const hidden = products?.some((item) =>
-      item?.name?.toLowerCase().includes(search.toLowerCase())
-    );
-    setShow(hidden);
-
-    setFilteredProduct(filtered);
+    return navigate(`/search?keyword=${search}`);
   };
-  console.log("Filtered Products:", filteredProduct);
 
   return (
     <div className="flex justify-between items-center px-[50px] bg-slate-200">
@@ -46,20 +34,6 @@ const Navbar = () => {
             Search
           </button>
         </div>
-
-        <ul className="bg-white shadow-md rounded-lg absolute ">
-          {filteredProduct.length > 0 && show ? (
-            filteredProduct.map((item) => (
-              <li key={item._id} className="p-2 border-b">
-                <Link to={`/product/${item._id}`}>{item.name}</Link>
-              </li>
-            ))
-          ) : (
-            <p className={`p-2 text-gray-500 ${show ? "hidden" : "block"}`}>
-              No items found
-            </p>
-          )}
-        </ul>
       </div>
       <div>
         <ul className="flex text-xl py-3">

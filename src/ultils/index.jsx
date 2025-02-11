@@ -7,3 +7,6 @@ export const getImageProduct = (imageProduct) => {
 export const getProductId = (categoryId) => {
   return `${BASE_API}/categories/${categoryId}/products`;
 };
+export const getProducts = ()=>{
+  return `${BASE_API}/products`
+}

@@ -33,6 +33,8 @@ const Category = () => {
   useEffect(() => {
     getCategory(categoryId);
   }, [categoryId]);
+  console.log(categoryProducts);
+  
   return (
     <div>
       <div className="flex justify-center items-center mt-4">

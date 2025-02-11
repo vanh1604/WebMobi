@@ -8,12 +8,12 @@ import Navbar from "./components/Navbar";
 import Category from "./pages/Category";
 import Categories from "./components/Categories";
 import NotFound from "./pages/NotFound";
+import SearchCategories from "./pages/SearchCategories";
 function App() {
-  
   return (
     <>
-    <Navbar />
-    <Categories/>
+      <Navbar />
+      <Categories />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -21,6 +21,7 @@ function App() {
         <Route path="/product/:id" element={<Product />} />
         <Route path="/category/:id" element={<Category />} />
         <Route path="/collection" element={<Collection />} />
+        <Route path="/search" element={<SearchCategories />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
