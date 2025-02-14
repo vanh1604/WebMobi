@@ -1,15 +1,14 @@
 import React, { use, useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/react.svg";
-import { ShopContext } from "../context/ShopContext";
+
 import { useNavigate } from "react-router-dom";
 const Navbar = () => {
-  const { products } = useContext(ShopContext);
   const [search, setSearch] = useState("");
-  const [filteredProduct, setFilteredProduct] = useState([]);
-  const [show, setShow] = useState(true);
+
   const navigate = useNavigate();
   const handleSearch = () => {
+    setSearch("");
     return navigate(`/search?keyword=${search}`);
   };
 

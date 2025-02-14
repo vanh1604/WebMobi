@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
-import { getImageProduct, getProductId } from "../ultils";
+import { getImageProduct, getCategoryId } from "../ultils";
 import Productitem from "../components/Productitem";
 
 const Category = () => {
@@ -16,7 +16,7 @@ const Category = () => {
 
   const getCategory = async (categoryId) => {
     try {
-      const res = await axios.get(getProductId(categoryId));
+      const res = await axios.get(getCategoryId(categoryId));
       console.log(res);
 
       setCategoryProducts(res.data.data.docs);

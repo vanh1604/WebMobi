@@ -1,8 +1,8 @@
 import React, { use, useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
-import { BASE_API, getImageProduct, getProductId } from "../ultils";
+import { BASE_API, getImageProduct, getCategoryId } from "../ultils";
 import Productitem from "../components/Productitem";
 import Pagination from "../components/Pagination";
 const SearchCategories = () => {
@@ -56,12 +56,14 @@ const SearchCategories = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 gap-y-6 mx-[20px] mt-[20px]">
         {products.map((product) => (
           <div className="border p-3" key={product._id}>
-            <Productitem
-              name={product.name}
-              image={getImageProduct(product.image)}
-              price={product.price}
-              id={product._id}
-            />
+            <Link to={`/product/${product._id}`}>
+              <Productitem
+                name={product.name}
+                image={getImageProduct(product.image)}
+                price={product.price}
+                id={product._id}
+              />
+            </Link>
           </div>
         ))}
       </div>
