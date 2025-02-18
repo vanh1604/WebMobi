@@ -1,25 +1,29 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
-import Productitem from "../components/Productitem";
+
 import { getImageProduct } from "../ultils";
 
 const Product = () => {
   const { id: productId } = useParams();
   const { products } = useContext(ShopContext);
   console.log(productId);
+console.log(products);
 
-  const [productData, setProductData] = useState(false);
+  const [productData, setProductData] = useState(null);
   useEffect(() => {
-    const fetchProductData = async () => {
+    const fetchProductData = () => {
       const product = products.find((item) => item._id === productId);
+      console.log(product);
+
       if (product) {
         setProductData(product);
+      } else {
+        setProductData(null);
       }
     };
     fetchProductData();
-  }, [productId]);
-  console.log(productData);
+  }, [productId, products]);
 
   return productData ? (
     <div className="mx-auto gap-y-6 mt-[20px] w-3/4">

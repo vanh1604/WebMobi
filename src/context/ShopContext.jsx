@@ -26,7 +26,6 @@ const ShopContextProvider = ({ children }) => {
     try {
       const res = await axios.get(`${BASE_API}/categories`);
       setMenu(res.data.data.docs);
-      console.log(res.data.data.docs);
     } catch (error) {
       console.log(error);
     }
