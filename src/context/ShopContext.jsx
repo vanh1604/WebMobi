@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { BASE_API, getProductId, getProducts } from "../ultils";
+import { BASE_API, getCategoryId, getProducts } from "../ultils";
 
 export const ShopContext = createContext();
 const ShopContextProvider = ({ children }) => {
@@ -13,7 +13,8 @@ const ShopContextProvider = ({ children }) => {
     try {
       const response = await axios.get(getProducts(), {
         params: {
-          limit: 10,
+          limit: 60,
+          
         },
       });
       setProducts(response.data.data.docs);

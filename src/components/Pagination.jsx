@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 const Pagination = ({ pages }) => {
-  const { total, limit, currentPage } = pages;
+  const { total, limit, currentPage, next, prev } = pages;
   const [searchParams, setSearchparams] = useSearchParams();
   const name = searchParams.get("keyword");
   const totalPages = Math.ceil(total / limit);
-  const renderPagesHTML = (delta = 2) => {
+  const renderPagesHTML = (delta = 1) => {
     const pages = [];
     const left = currentPage - delta;
     const right = currentPage + delta;
@@ -26,21 +26,25 @@ const Pagination = ({ pages }) => {
     return `/search?keyword=${name}&page=${page}`;
   };
   return (
-    <div className="mx-[20px] mt-[20px]">
+    <div className="mx-[20px] mt-[20px] mb-[20px]">
       <div>
         <ul className="flex gap-2 items-center">
-          <li>Trang truoc</li>
+          <Link to={renderPages(prev)}>Trang truoc</Link>
           <li className="flex gap-2">
             {renderPagesHTML().map((item, index) => (
               <div
-                className="hover:scale-110 hover:bg-slate-200 transition ease-in-out p-2"
+                className={`hover:scale-110 hover:bg-slate-200 transition ease-in-out p-2 ${
+                  item === currentPage ? "bg-slate-300" : ""
+                }`}
                 key={index}
               >
-                <Link to={renderPages(item)}>{item}</Link>
+                <NavLink to={renderPages(item)} className={``}>
+                  {item}
+                </NavLink>
               </div>
             ))}
           </li>
-          <li>Trang sau</li>
+          <Link to={renderPages(next)}>Trang sau</Link>
         </ul>
       </div>
     </div>

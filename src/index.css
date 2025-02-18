@@ -2,4 +2,8 @@
 
 a.active hr {
   display: block;
+  background-color: aqua;
+}
+a.actice{
+  background-color: aqua;
 }

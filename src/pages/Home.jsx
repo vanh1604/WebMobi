@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { getImageProduct } from "../ultils";
 import Productitem from "../components/Productitem";
 import { ShopContext } from "../context/ShopContext";
+import SilderWeb from "./../components/SliderWeb";
 
 const Home = () => {
   const { products } = useContext(ShopContext);
@@ -17,12 +18,13 @@ const Home = () => {
   }, [products]);
   return (
     <>
+      <SilderWeb />
       <div className="flex flex-col items-center gap-y-6 mt-[20px]">
         <div>
           <p className="text-2xl">Sản phẩm gần đây</p>
         </div>
         <div className="grid gird-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 gap-y-6 mx-20">
-          {featureProducts.map((product, index) => {
+          {latestProduct.map((product, index) => {
             return (
               <Productitem
                 key={index}
