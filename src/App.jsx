@@ -10,12 +10,14 @@ import Categories from "./components/Categories";
 import NotFound from "./pages/NotFound";
 import SearchCategories from "./pages/SearchCategories";
 import { ToastContainer } from "react-toastify";
+
 function App() {
   return (
     <>
       <ToastContainer />
       <Navbar />
       <Categories />
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

@@ -1,6 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { ShopContext } from "../context/ShopContext";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux-setup/reducers/cart";
 import moment from "moment";
 import {
   getComments,
@@ -12,9 +14,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const Product = () => {
+  const dispatch = useDispatch();
   const { id: productId } = useParams();
-
-  const [productData, setProductData] = useState(null);
+  const navigate = useNavigate();
+  const [productData, setProductData] = useState({});
   const [comments, setComments] = useState([]);
   const [inputComments, setInputComments] = useState({});
   const handleChangeInputComments = (e) => {
@@ -24,6 +27,23 @@ const Product = () => {
       [name]: value,
     }));
   };
+  const clickAddToCart = (type) => {
+    dispatch(
+      addToCart({
+        _id: productData?._id,
+        name: productData?.name,
+        image: getImageProduct(productData?.image),
+        price: productData?.price,
+        quantity: 1,
+      })
+    );
+    if (type === "buy-now") {
+      return navigate(`/Cart`);
+    }
+  };
+
+
+
   const clickMomment = async (e) => {
     e.preventDefault();
     try {
@@ -54,7 +74,8 @@ const Product = () => {
   useEffect(() => {
     fetchComments();
     fetchProductData();
-  }, [productId, comments]);
+
+  }, [productId,comments]);
 
   return productData ? (
     <div className="mx-auto gap-y-6 mt-[20px] w-3/4">
@@ -68,6 +89,7 @@ const Product = () => {
             />
           </div>
           <div className="flex flex-col gap-y-2 text-xl">
+            <p>Tên : {productData.name}</p>
             <p>Bảo hành : 12 Tháng</p>
             <p>Đi kèm : {productData.accessories}</p>
             <p>Tình trạng : {productData.status}</p>
@@ -80,10 +102,16 @@ const Product = () => {
               <div className="flex flex-col gap-y-2">
                 <p className="text-green-600">Còn hàng</p>
                 <div className="flex gap-x-2">
-                  <button className="bg-red-500 text-white cursor-pointer w-[120px] h-[35px] rounded-4xl hover:scale-110 trasison ease-in-out">
+                  <button
+                    onClick={() => clickAddToCart("buy-now")}
+                    className="bg-red-500 text-white cursor-pointer w-[120px] h-[35px] rounded-4xl hover:scale-110 trasison ease-in-out"
+                  >
                     Mua ngay
                   </button>
-                  <button className="bg-blue-500 text-white cursor-pointer w-[200px] h-[35px] rounded-4xl hover:scale-110 trasison ease-in-out">
+                  <button
+                    onClick={() => clickAddToCart()}
+                    className="bg-blue-500 text-white cursor-pointer w-[200px] h-[35px] rounded-4xl hover:scale-110 trasison ease-in-out"
+                  >
                     Thêm vào giỏ hàng
                   </button>
                 </div>
