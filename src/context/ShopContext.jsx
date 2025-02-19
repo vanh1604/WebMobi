@@ -14,7 +14,6 @@ const ShopContextProvider = ({ children }) => {
       const response = await axios.get(getProducts(), {
         params: {
           limit: 60,
-          
         },
       });
       setProducts(response.data.data.docs);
@@ -36,7 +35,7 @@ const ShopContextProvider = ({ children }) => {
     getProductsData();
     getMenu();
   }, []);
-  const value = { products, menu };
+  const value = { products, menu, setMenu,getMenu };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };
 export default ShopContextProvider;

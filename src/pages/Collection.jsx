@@ -6,10 +6,12 @@ import Productitem from "../components/Productitem";
 import axios from "axios";
 
 import PaginationCollection from "../components/PaginationCollection";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const Collection = () => {
   const { menu } = useContext(ShopContext);
-
+  const [searchParams] = useSearchParams();
+  const pageByLink = searchParams.get("page");
   const [pages, setPages] = useState({ limit: 10 });
 
   const [data, setData] = useState([]);
@@ -36,8 +38,13 @@ const Collection = () => {
   };
   useEffect(() => {
     getData();
-  }, [menu, pages]); // Removed `page` since we fetch all pages dynamically
-
+  }, [menu, pages.currentPage]); // Removed `page` since we fetch all pages dynamically
+  useEffect(() => {
+    setPages({
+      ...pages,
+      currentPage: pageByLink,
+    });
+  }, [pageByLink]);
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 gap-y-6 mx-[20px] mt-[20px]">

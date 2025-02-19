@@ -7,12 +7,17 @@ import Slider from "react-slick";
 function SilderWeb() {
   const [slider, setSlider] = useState([]);
   const settings = {
-    dots: true, // Show dots navigation
-    infinite: true, // Infinite scrolling
+    dots: true,
+    arrows:false,
+    fade: true,
+    infinite: true,
     speed: 500,
-    slidesToShow: 1, // Number of slides visible
+    slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    waitForAnimate: false,
+    cssEase: "linear",
     responsive: [
       {
         breakpoint: 1024,
@@ -49,20 +54,19 @@ function SilderWeb() {
     fetchSlider();
   }, []);
   return (
-    <div className="bg-slate-300">
-      <div className="slider-container w-5/6 m-auto h-[395px]">
-        <Slider {...settings}>
-          {slider.map((item, index) => (
-            <div key={index} className="gap-2">
-              <img
-                className="w-full object-cover h-[395px]"
-                src={getImageSlider(item.image)}
-                alt={item.name}
-              />
-            </div>
-          ))}
-        </Slider>
-      </div>
+    <div className="slider-container">
+      <Slider {...settings}>
+        {slider.map((item, index) => (
+          <div key={index}>
+            <img
+              className="w-full object-cover"
+              src={getImageSlider(item.image)}
+              alt={item.name}
+            />
+          </div>
+        ))}
+        
+      </Slider>
     </div>
   );
 }
