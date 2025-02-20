@@ -42,8 +42,6 @@ const Product = () => {
     }
   };
 
-
-
   const clickMomment = async (e) => {
     e.preventDefault();
     try {
@@ -74,8 +72,7 @@ const Product = () => {
   useEffect(() => {
     fetchComments();
     fetchProductData();
-
-  }, [productId,comments]);
+  }, [productId, comments]);
 
   return productData ? (
     <div className="mx-auto gap-y-6 mt-[20px] w-3/4">
@@ -96,7 +93,12 @@ const Product = () => {
             <p>Khuyến mãi : {productData.promotion}</p>
             <div>
               <p>Gía bán (chưa bao gồm VAT) :</p>
-              <p className="text-red-500 text-3xl">{productData.price} đ</p>
+              <p className="text-red-500 text-3xl">
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(productData.price)}
+              </p>
             </div>
             {productData.is_stock === true ? (
               <div className="flex flex-col gap-y-2">

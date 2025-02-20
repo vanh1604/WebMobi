@@ -1,19 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { IoTrashBinOutline } from "react-icons/io5";
 import { useDispatch } from "react-redux";
 import { updatedItemCart } from "../redux-setup/reducers/cart";
-import { removeFromCart } from "../redux-setup/reducers/cart";
+import { removeFromCart, resetCart } from "../redux-setup/reducers/cart";
+import axios from "axios";
+import { order } from "../ultils";
+
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
+  // giá trị được xuất ra: "123.456,79 ₫"
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [userInformation, setUserInformation] = useState({});
   const cart = useSelector((state) => state.cart.items);
-  console.log(cart);
+  const newItems = cart.map((item) => ({
+    prd_id: item._id,
+    price: item.price,
+    qty: item.quantity,
+  }));
+
+
   const changeInputQuantity = (e, id) => {
     if (e.target.value < 1) {
       const isConfirm = confirm("Are you sure you want to remove this item?");
       return isConfirm ? dispatch(removeFromCart(id)) : false;
     }
     dispatch(updatedItemCart({ id: id, quantity: e.target.value }));
+  };
+  const changeFormInputs = (e) => {
+    const { name, value } = e.target;
+    return setUserInformation({ ...userInformation, [name]: value });
+  };
+  console.log(userInformation);
+
+  const clickOrder = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(order(), {
+        ...userInformation,
+        customer_id: "614717de271a0400ee8ef1cd",
+        items: newItems,
+      });
+      if (response.status === 201) {
+        dispatch(resetCart());
+        setUserInformation({});
+        return navigate("/success-order");
+      } else {
+        console.error("Order was not successful", response);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
   const removeItemCard = (id) => {
     const isConfirm = confirm("Are you sure you want to remove this item?");
@@ -23,9 +62,10 @@ const Cart = () => {
     (total, item) => total + item.price * item.quantity,
     0
   );
-
-  console.log(TotalCart);
-
+  const formatTotalCart = new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(TotalCart);
   return (
     <div>
       <div className="text-center my-5">
@@ -47,7 +87,12 @@ const Cart = () => {
                         {item.name}
                       </p>
                       <div className="flex items-center gap-5 mt-2">
-                        <p>{item.price * item.quantity}đ</p>
+                        <p>
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(item.price * item.quantity)}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -67,7 +112,10 @@ const Cart = () => {
             {cart.length !== 0 ? (
               <p className="mt-4 text-2xl">
                 Tổng tiền :{" "}
-                <span className="font-bold  text-red-400">{TotalCart}</span> đ
+                <span className="font-bold  text-red-400">
+                  {formatTotalCart}
+                </span>{" "}
+                
               </p>
             ) : (
               ""
@@ -75,39 +123,50 @@ const Cart = () => {
           </div>
         </div>
         <div>
-          <form action="">
-            <div className="flex flex-col items-start gap-4">
-              <div className="flex gap-4">
+          <form method="post" className="space-y-4">
+            <div className="flex flex-col space-y-4">
+              <div className="flex flex-wrap gap-4">
                 <input
                   type="text"
-                  className="outline"
-                  name="Email"
+                  className="outline w-full sm:w-auto"
+                  name="email"
                   placeholder="Email"
+                  onChange={changeFormInputs}
                 />
                 <input
                   type="text"
-                  className="outline"
-                  name="Họ và Tên"
+                  className="outline w-full sm:w-auto"
+                  name="fullName"
                   placeholder="Họ và Tên"
+                  onChange={changeFormInputs}
                 />
                 <input
-                  type="number"
-                  className="outline"
-                  name="Sđt"
+                  type="tel"
+                  className="outline w-full sm:w-auto"
+                  name="phone"
                   placeholder="Sđt"
+                  onChange={changeFormInputs}
                 />
               </div>
-              <div className="w-full">
-                <input
-                  type="text"
-                  className="outline w-full"
-                  placeholder="Address"
-                />
-              </div>
+              <input
+                name="address"
+                type="text"
+                className="outline w-full"
+                placeholder="Address"
+                onChange={changeFormInputs}
+              />
             </div>
-            <button className="bg-pink-200 p-2 rounded-2xl mt-10">
-              Thanh toán
-            </button>
+            <div className="flex  gap-4 justify-around">
+              <button
+                onClick={clickOrder}
+                className="bg-pink-200 p-2 rounded-2xl mt-10 w-full sm:w-auto cursor-pointer hover:scale-110 transition ease-in-out"
+              >
+                Thanh toán ngay
+              </button>
+              <button className="bg-orange-200 p-2 rounded-2xl mt-10 w-full sm:w-auto cursor-pointer hover:scale-110 transition ease-in-out">
+                Trả góp online
+              </button>
+            </div>
           </form>
         </div>
       </div>

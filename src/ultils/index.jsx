@@ -28,3 +28,15 @@ export const getSlider = () => {
 export const getImageSlider = (imageSlider) => {
   return `${BASE_URL}/assets/uploads/sliders/${imageSlider}`;
 };
+export const order = () => {
+  return `${BASE_API}/order`;
+};
+export const createUser = () => {
+  return `${BASE_API}/customers/register`;
+};
+export const login = () => {
+  return `${BASE_API}/customers/login`;
+};
+export const logOut = (id) => {
+  return `${BASE_API}/customers/${id}/logout`;
+};

@@ -10,23 +10,30 @@ import Categories from "./components/Categories";
 import NotFound from "./pages/NotFound";
 import SearchCategories from "./pages/SearchCategories";
 import { ToastContainer } from "react-toastify";
-
+import SuccessOrder from "./pages/SuccessOrder";
+import { PersistGate } from "redux-persist/integration/react";
+import { persiststor } from "./redux-setup/store";
+import Register from "./pages/Register";
 function App() {
   return (
     <>
-      <ToastContainer />
-      <Navbar />
-      <Categories />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/category/:id" element={<Category />} />
-        <Route path="/collection" element={<Collection />} />
-        <Route path="/search" element={<SearchCategories />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <PersistGate persistor={persiststor}>
+        <ToastContainer />
+        <Navbar />
+        <Categories />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route path="/category/:id" element={<Category />} />
+          <Route path="/collection" element={<Collection />} />
+          <Route path="/search" element={<SearchCategories />} />
+          <Route path="/success-order" element={<SuccessOrder />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </PersistGate>
     </>
   );
 }

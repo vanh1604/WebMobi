@@ -2,7 +2,7 @@
 
 a.active hr {
   display: block;
-  background-color: aqua;
+  background-color: rgb(47, 150, 150);
 }
 a.actice{
   background-color: aqua;

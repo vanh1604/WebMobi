@@ -31,8 +31,11 @@ const cartReducer = createSlice({
       state.items = newItem;
       toast.success("Item removed from cart");
     },
+    resetCart: (state, action) => {
+      state.items = [];
+    },
   },
 });
-export const { addToCart, removeFromCart, updatedItemCart } =
+export const { addToCart, removeFromCart, updatedItemCart,resetCart } =
   cartReducer.actions;
 export default cartReducer.reducer;
