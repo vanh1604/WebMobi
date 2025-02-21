@@ -8,8 +8,7 @@ import Productitem from "../components/Productitem";
 const Category = () => {
   const { id: categoryId } = useParams();
   const { menu } = useContext(ShopContext);
-  console.log(menu);
-  
+
   const [categoryProducts, setCategoryProducts] = useState([]);
   const [name, setname] = useState("");
   const [total, setTotal] = useState(0);
@@ -17,7 +16,6 @@ const Category = () => {
   const getCategory = async (categoryId) => {
     try {
       const res = await axios.get(getCategoryId(categoryId));
-      console.log(res);
 
       setCategoryProducts(res.data.data.docs);
       setTotal(res.data.data.pages.total);
@@ -34,7 +32,7 @@ const Category = () => {
     getCategory(categoryId);
   }, [categoryId]);
   console.log(categoryProducts);
-  
+
   return (
     <div>
       <div className="flex justify-center items-center mt-4">

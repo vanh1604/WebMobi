@@ -9,19 +9,18 @@ import { order } from "../ultils";
 
 import { useNavigate } from "react-router-dom";
 const Cart = () => {
-  // giá trị được xuất ra: "123.456,79 ₫"
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [userInformation, setUserInformation] = useState({});
+
+  const login = useSelector((state) => state.auth.login.loggedIn);
+  const user = useSelector((state) => state.auth.login.curentCustomer);
   const cart = useSelector((state) => state.cart.items);
   const newItems = cart.map((item) => ({
     prd_id: item._id,
     price: item.price,
     qty: item.quantity,
   }));
-
-
+  const { fullName, email, phone, address, _id } = user;
   const changeInputQuantity = (e, id) => {
     if (e.target.value < 1) {
       const isConfirm = confirm("Are you sure you want to remove this item?");
@@ -29,23 +28,21 @@ const Cart = () => {
     }
     dispatch(updatedItemCart({ id: id, quantity: e.target.value }));
   };
-  const changeFormInputs = (e) => {
-    const { name, value } = e.target;
-    return setUserInformation({ ...userInformation, [name]: value });
-  };
-  console.log(userInformation);
 
   const clickOrder = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(order(), {
-        ...userInformation,
-        customer_id: "614717de271a0400ee8ef1cd",
+        fullName,
+        email,
+        phone,
+        address,
+        customer_id: _id,
         items: newItems,
       });
       if (response.status === 201) {
         dispatch(resetCart());
-        setUserInformation({});
+
         return navigate("/success-order");
       } else {
         console.error("Order was not successful", response);
@@ -71,7 +68,11 @@ const Cart = () => {
       <div className="text-center my-5">
         <h1 className="text-2xl font-bold">Thông tin giỏ hàng</h1>
       </div>
-      <div className=" contaienr flex justify-around">
+      <div
+        className={`container flex mx-auto  ${
+          login ? "flex-col mx-auto" : " justify-around"
+        }`}
+      >
         <div>
           <div>
             {cart.map((item, index) => {
@@ -115,7 +116,6 @@ const Cart = () => {
                 <span className="font-bold  text-red-400">
                   {formatTotalCart}
                 </span>{" "}
-                
               </p>
             ) : (
               ""
@@ -123,51 +123,65 @@ const Cart = () => {
           </div>
         </div>
         <div>
-          <form method="post" className="space-y-4">
-            <div className="flex flex-col space-y-4">
-              <div className="flex flex-wrap gap-4">
-                <input
-                  type="text"
-                  className="outline w-full sm:w-auto"
-                  name="email"
-                  placeholder="Email"
-                  onChange={changeFormInputs}
-                />
-                <input
-                  type="text"
-                  className="outline w-full sm:w-auto"
-                  name="fullName"
-                  placeholder="Họ và Tên"
-                  onChange={changeFormInputs}
-                />
-                <input
-                  type="tel"
-                  className="outline w-full sm:w-auto"
-                  name="phone"
-                  placeholder="Sđt"
-                  onChange={changeFormInputs}
-                />
-              </div>
-              <input
-                name="address"
-                type="text"
-                className="outline w-full"
-                placeholder="Address"
-                onChange={changeFormInputs}
-              />
+          {login ? (
+            ""
+          ) : (
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold">Thông tin khách hàng</h2>
+              <form method="post" className="space-y-4">
+                <div className="flex flex-col space-y-4">
+                  <div className="flex flex-wrap gap-4">
+                    <input
+                      type="text"
+                      className="outline w-full sm:w-auto"
+                      name="email"
+                      placeholder="Email"
+                      required
+                    />
+                    <input
+                      type="text"
+                      className="outline w-full sm:w-auto"
+                      name="fullName"
+                      placeholder="Họ và Tên"
+                    />
+                    <input
+                      type="tel"
+                      className="outline w-full sm:w-auto"
+                      name="phone"
+                      placeholder="Sđt"
+                    />
+                  </div>
+                  <input
+                    name="address"
+                    type="text"
+                    className="outline w-full"
+                    placeholder="Address"
+                  />
+                </div>
+              </form>
             </div>
-            <div className="flex  gap-4 justify-around">
+          )}
+          <div className="flex  gap-4 justify-around">
+            {login ? (
               <button
                 onClick={clickOrder}
                 className="bg-pink-200 p-2 rounded-2xl mt-10 w-full sm:w-auto cursor-pointer hover:scale-110 transition ease-in-out"
               >
                 Thanh toán ngay
               </button>
-              <button className="bg-orange-200 p-2 rounded-2xl mt-10 w-full sm:w-auto cursor-pointer hover:scale-110 transition ease-in-out">
-                Trả góp online
+            ) : (
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-pink-200 p-2 rounded-2xl mt-10 w-full sm:w-auto cursor-pointer hover:scale-110 transition ease-in-out"
+              >
+                Đăng nhập ngay
               </button>
-            </div>
-          </form>
+            )}
+
+            <button className="bg-orange-200 p-2 rounded-2xl mt-10 w-full sm:w-auto cursor-pointer hover:scale-110 transition ease-in-out">
+              Trả góp online
+            </button>
+          </div>
         </div>
       </div>
     </div>

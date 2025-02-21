@@ -4,6 +4,7 @@ export const BASE_URL = " https://vietpro-shop-api.onrender.com";
 export const getImageProduct = (imageProduct) => {
   return `${BASE_URL}/assets/uploads/products/${imageProduct}`;
 };
+// eslint-disable-next-line react-refresh/only-export-components
 export const getCategoryId = (categoryId) => {
   return `${BASE_API}/categories/${categoryId}/products`;
 };
@@ -40,3 +41,6 @@ export const login = () => {
 export const logOut = (id) => {
   return `${BASE_API}/customers/${id}/logout`;
 };
+export const OrderHistory = (id) => {
+  return `${BASE_API}/customers/${id}/orders`;
+}

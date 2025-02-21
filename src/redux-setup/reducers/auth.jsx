@@ -16,7 +16,10 @@ const authSlice = createSlice({
       state.login.curentCustomer = action.payload;
       state.login.loggedIn = true;
     },
-    loggoutSuccess: (state, action) => {},
+    loggoutSuccess: (state) => {
+      state.login.curentCustomer = null;
+      state.login.loggedIn = false;
+    },
     updatedSuccess: (state, action) => {},
     updatedTokenSuccess: (state, action) => {},
   },

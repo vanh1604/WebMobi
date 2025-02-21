@@ -22,6 +22,8 @@ const Register = () => {
       const res = await axios.post(createUser(), inputRegister);
       if (res.status === 200) {
         toast.success("Registration successful");
+        console.log(res);
+        
         setStatusRegister(false);
         navigate("/");
       } else {

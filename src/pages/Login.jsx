@@ -29,11 +29,6 @@ const Login = () => {
       );
 
       if (res.status === 200) {
-        localStorage.setItem("token", res.data.accessToken);
-        localStorage.setItem(
-          "user",
-          JSON.stringify(res.data.customer.fullName)
-        );
         toast.success("Login successful");
         navigate("/");
       }
@@ -71,7 +66,7 @@ const Login = () => {
             <div>
               Nếu bạn chưa có tài khoản hãy đăng ký{" "}
               <span
-                className="cursor-pointer text-orange-500 text-xl font-medium"
+                className="cursor-pointer text-orange-500 text-xl font-medium inline-block animate-bounce "
                 onClick={() => navigate("/register")}
               >
                 ở đây

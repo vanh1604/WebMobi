@@ -1,26 +1,22 @@
 import React, { use, useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../assets/gradient-mobile-store-logo-design.png";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getProducts } from "../ultils";
+import { loggoutSuccess } from "../redux-setup/reducers/auth";
+import { logOut } from "../ultils";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
-  const token = localStorage.getItem("token");
-  const nameUser = JSON.parse(localStorage.getItem("user"));
   const [products, setProducts] = useState([]);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const User = useSelector((state) => state.auth.login.curentCustomer);
-  const authInfor = JSON.parse(localStorage.getItem("persist:cart"));
-
-  console.log(JSON.parse(authInfor.curentCustomer));
-  // const checkuser = () => {
-  //   if (JSON.parse(authInfor.curentCustomer).accessToken === User.accessToken) {
-  //     return true;
-  //   }
-  // };
+  const login = useSelector(({ auth }) => auth.login.loggedIn);
   const handleSearch = () => {
     setSearch("");
     return navigate(`/search?keyword=${search}`);
@@ -32,14 +28,27 @@ const Navbar = () => {
     navigate(`/product/${id}`);
     setSearch("");
   };
-  const logOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
-  // const logOutUser = (id) => {
 
-  // }
+  const clickLogout = async () => {
+    dispatch(loggoutSuccess());
+    try {
+      const res = await axios.get(logOut(User._id),{
+        headers:{
+          Authorization: `Bearer ${User.accessToken}`
+        }
+      });
+      if (res.status === 200) {
+        toast.success("Logout successful");
+        navigate("/login");
+      } else {
+        toast.error(res.response?.data);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response?.data);
+    }
+  };
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -111,9 +120,14 @@ const Navbar = () => {
             <li className="px-[10px] hover:bg-pink-200">Collection</li>
             <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
           </NavLink>
-          <NavLink to="cart" className="flex flex-col items-center">
+          <NavLink to={"/cart"} className={`flex flex-col items-start relative `} >
             <div className="flex relative">
-              <li className="px-[20px] hover:bg-pink-200">Cart</li>
+              <li
+                className="px-[20px] hover:bg-pink-200"
+                onMouseDown={() => setOpen(!open)}
+              >
+                Cart
+              </li>
               {totalCart > 0 ? (
                 <p className="text-sm absolute top-[-3px] right-[8px] bg-amber-300 w-[15px] h-[15px] rounded-full flex justify-center items-center">
                   {totalCart}
@@ -122,14 +136,28 @@ const Navbar = () => {
                 ""
               )}
             </div>
-            <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
+            {login && open ? (
+              <div className="absolute top-[30px] flex flex-col gap-2 w-[200px] bg-amber-500  text-[16px]">
+                <Link to={"/cart"} onClick={() => setOpen(false)} className="cursor-pointer hover:bg-amber-600 px-2 py-1">
+                  Giỏ hàng của bạn là {totalCart}
+                </Link>
+                <Link to={'/history-order'} onClick={() => setOpen(false)}   className="cursor-pointer hover:bg-amber-600 px-2 py-1">
+                  Đơn hàng đã mua
+                </Link>
+              </div>
+            ) : (
+              ""
+            )}
+            <hr className="w-2/4 border-none h-[1.5px] mx-auto bg-gray-700 hidden" />
           </NavLink>
-          {token ? (
+          {login ? (
             <div className="flex items-center justify-center gap-2">
               <p>{User.fullName}</p>
               <button
                 className="hover:bg-pink-200 px-2 py-1 rounded-2xl cursor-pointer"
-                onClick={logOut}
+                onClick={() => {
+                  clickLogout();
+                }}
               >
                 Logout
               </button>
