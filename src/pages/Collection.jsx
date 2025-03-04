@@ -45,6 +45,8 @@ const Collection = () => {
       currentPage: pageByLink,
     });
   }, [pageByLink]);
+  console.log(data);
+  
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 gap-y-6 mx-[20px] mt-[20px]">
