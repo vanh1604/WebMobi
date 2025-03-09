@@ -1,9 +1,10 @@
 import React, { use, useEffect, useState } from "react";
-import { getImageSlider, getSlider } from "../ultils";
+import { getImageSlider, getSlide } from "../ultils";
 import axios from "axios";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Http from "../service/Api";
 function SilderWeb() {
   const [slider, setSlider] = useState([]);
   const settings = {
@@ -46,7 +47,7 @@ function SilderWeb() {
     ],
   };
   const fetchSlider = async () => {
-    const res = await axios.get(getSlider());
+    const res = await Http.get(getSlide());
 
     setSlider(res.data.data.docs);
   };

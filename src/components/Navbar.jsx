@@ -8,6 +8,7 @@ import { loggoutSuccess } from "../redux-setup/reducers/auth";
 import { logOut } from "../ultils";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Http from "../service/Api";
 
 const Navbar = () => {
   const [search, setSearch] = useState("");
@@ -32,11 +33,9 @@ const Navbar = () => {
   const clickLogout = async () => {
     dispatch(loggoutSuccess());
     try {
-      const res = await axios.get(logOut(User._id),{
-        headers:{
-          Authorization: `Bearer ${User.accessToken}`
-        }
-      });
+      const res = await Http.get(logOut(User._id));
+      console.log(res);
+      
       if (res.status === 200) {
         toast.success("Logout successful");
         navigate("/login");
@@ -52,7 +51,7 @@ const Navbar = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get(`${getProducts()}`, {
+        const res = await Http.get(`${getProducts()}`, {
           params: {
             limit: 600,
           },
@@ -120,7 +119,10 @@ const Navbar = () => {
             <li className="px-[10px] hover:bg-pink-200">Collection</li>
             <hr className="w-2/4 border-none h-[1.5px] bg-gray-700 hidden" />
           </NavLink>
-          <NavLink to={"/cart"} className={`flex flex-col items-start relative `} >
+          <NavLink
+            to={"/cart"}
+            className={`flex flex-col items-start relative `}
+          >
             <div className="flex relative">
               <li
                 className="px-[20px] hover:bg-pink-200"
@@ -138,10 +140,18 @@ const Navbar = () => {
             </div>
             {login && open ? (
               <div className="absolute top-[30px] flex flex-col gap-2 w-[200px] bg-amber-500  text-[16px]">
-                <Link to={"/cart"} onClick={() => setOpen(false)} className="cursor-pointer hover:bg-amber-600 px-2 py-1">
+                <Link
+                  to={"/cart"}
+                  onClick={() => setOpen(false)}
+                  className="cursor-pointer hover:bg-amber-600 px-2 py-1"
+                >
                   Giỏ hàng của bạn là {totalCart}
                 </Link>
-                <Link to={'/history-order'} onClick={() => setOpen(false)}   className="cursor-pointer hover:bg-amber-600 px-2 py-1">
+                <Link
+                  to={"/history-order"}
+                  onClick={() => setOpen(false)}
+                  className="cursor-pointer hover:bg-amber-600 px-2 py-1"
+                >
                   Đơn hàng đã mua
                 </Link>
               </div>

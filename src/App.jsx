@@ -13,6 +13,7 @@ import routers from "./routers/routers";
 function App() {
   return (
     <>
+    
       <PersistGate persistor={persiststor}>
         <ToastContainer />
         <Navbar />
@@ -29,6 +30,7 @@ function App() {
           })}
         </Routes>
       </PersistGate>
+
     </>
   );
 }

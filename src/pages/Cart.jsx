@@ -6,8 +6,9 @@ import { updatedItemCart } from "../redux-setup/reducers/cart";
 import { removeFromCart, resetCart } from "../redux-setup/reducers/cart";
 import axios from "axios";
 import { order } from "../ultils";
-
 import { useNavigate } from "react-router-dom";
+import Http from "../service/Api";
+
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,7 +21,10 @@ const Cart = () => {
     price: item.price,
     qty: item.quantity,
   }));
-  const { fullName, email, phone, address, _id } = user;
+
+  // Add a check to ensure user is not null
+  const { fullName, email, phone, address, _id } = user || {};
+
   const changeInputQuantity = (e, id) => {
     if (e.target.value < 1) {
       const isConfirm = confirm("Are you sure you want to remove this item?");
@@ -31,8 +35,12 @@ const Cart = () => {
 
   const clickOrder = async (e) => {
     e.preventDefault();
+    if (!user) {
+      console.error("User is not logged in");
+      return;
+    }
     try {
-      const response = await axios.post(order(), {
+      const response = await Http.post(order(), {
         fullName,
         email,
         phone,
@@ -42,7 +50,6 @@ const Cart = () => {
       });
       if (response.status === 201) {
         dispatch(resetCart());
-
         return navigate("/success-order");
       } else {
         console.error("Order was not successful", response);
@@ -51,10 +58,12 @@ const Cart = () => {
       console.error("Error placing order:", error);
     }
   };
+
   const removeItemCard = (id) => {
     const isConfirm = confirm("Are you sure you want to remove this item?");
     return isConfirm ? dispatch(removeFromCart(id)) : false;
   };
+
   const TotalCart = cart.reduce(
     (total, item) => total + item.price * item.quantity,
     0
@@ -63,6 +72,7 @@ const Cart = () => {
     style: "currency",
     currency: "VND",
   }).format(TotalCart);
+
   return (
     <div>
       <div className="text-center my-5">

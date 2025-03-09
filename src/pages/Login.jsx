@@ -5,6 +5,7 @@ import axios from "axios";
 import { logginSuccess } from "../redux-setup/reducers/auth";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import Http from "../service/Api";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ const Login = () => {
   const clickLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(login(), inputLogin);
-      console.log(res.data);
+      const res = await Http.post(login(), inputLogin);
+
       dispatch(
         logginSuccess({
           ...res.data.customer,

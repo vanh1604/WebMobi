@@ -4,6 +4,7 @@ import React, { use, useState } from "react";
 import { createUser } from "./../ultils/index";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import Http from "../service/Api";
 const Register = () => {
   const [inputRegister, setInputRegister] = useState({});
   const [statusRegister, setStatusRegister] = useState(false);
@@ -19,7 +20,7 @@ const Register = () => {
   const clickRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(createUser(), inputRegister);
+      const res = await Http.post(createUser(), inputRegister);
       if (res.status === 200) {
         toast.success("Registration successful");
         console.log(res);

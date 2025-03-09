@@ -1,25 +1,25 @@
 import axios from "axios";
-import React, { use, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { useSelector } from "react-redux";
 import { OrderHistory } from "../ultils";
+import Http from "../service/Api";
 
 const HistoryOrder = () => {
-  const CustumerId = useSelector((state) => state.auth.curentCustomer._id);
-  const inforOrder = async()=>{
-    
+  const { curentCustomer } = useSelector((state) => state.auth.login);
+  const CustumerId = curentCustomer?._id;
+  console.log(CustumerId);
+  
+  const inforOrder = async () => {
     try {
-        const res = await axios.get(OrderHistory(CustumerId));
-        console.log(res);
-        
+      const res = await Http.get(OrderHistory(CustumerId));
+      console.log(res);
     } catch (error) {
-        console.log(error);
-        
+      console.log(error);
     }
-    
-  }
+  };
   useEffect(() => {
-      inforOrder();
-  },[])
+    inforOrder();
+  }, []);
   return (
     <div className="mt-10 container mx-auto">
       <div className="my-5 text-center text-2xl font-bold">

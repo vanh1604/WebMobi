@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BASE_API } from "../ultils";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 

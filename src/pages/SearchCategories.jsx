@@ -1,10 +1,12 @@
-import React, { use, useContext, useEffect, useState } from "react";
+import React, {  useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import axios from "axios";
-import { BASE_API, getImageProduct, getCategoryId } from "../ultils";
+import {  getImageProduct } from "../ultils";
 import Productitem from "../components/Productitem";
 import Pagination from "../components/Pagination";
+import { BASE_API } from "../constants";
+import Http from "../service/Api";
 const SearchCategories = () => {
   const [searchParams] = useSearchParams();
   const { menu } = useContext(ShopContext);
@@ -24,7 +26,7 @@ const SearchCategories = () => {
 
         if (productsSearch) {
           try {
-            const res = await axios.get(`${BASE_API}/products`, {
+            const res = await Http.get(`${BASE_API}/products`, {
               params: {
                 name: keyword,
                 limit: 10,

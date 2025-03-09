@@ -12,6 +12,7 @@ import {
 } from "../ultils";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Http from "../service/Api";
 
 const Product = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Product = () => {
   const clickMomment = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(createComment(productId), inputComments);
+      await Http.post(createComment(productId), inputComments);
       toast.success("Comment created successfully");
       setInputComments({});
     } catch (error) {
@@ -54,7 +55,7 @@ const Product = () => {
   };
   const fetchProductData = async () => {
     try {
-      const response = await axios.get(getProductId(productId));
+      const response = await Http.get(getProductId(productId));
       setProductData(response.data.data);
     } catch (error) {
       console.error("Error fetching product data:", error);
@@ -62,7 +63,7 @@ const Product = () => {
   };
   const fetchComments = async () => {
     try {
-      const res = await axios.get(getComments(productId));
+      const res = await Http.get(getComments(productId));
 
       setComments(res.data.data.docs);
     } catch (error) {

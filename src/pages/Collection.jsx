@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../context/ShopContext";
-import { BASE_API, getImageProduct } from "../ultils";
+import { getImageProduct } from "../ultils";
 import Productitem from "../components/Productitem";
-
+import { BASE_API } from "../constants";
 import axios from "axios";
 
 import PaginationCollection from "../components/PaginationCollection";
 import { useParams, useSearchParams } from "react-router-dom";
+import Http from "../service/Api";
 
 const Collection = () => {
   const { menu } = useContext(ShopContext);
@@ -19,7 +20,7 @@ const Collection = () => {
 
   const getData = async () => {
     try {
-      const res = await axios.get(`${BASE_API}/products`, {
+      const res = await Http.get(`/products`, {
         params: {
           limit: pages.limit, // Fetch in batches of 60 to reduce calls
           page: pages.currentPage,
@@ -45,8 +46,7 @@ const Collection = () => {
       currentPage: pageByLink,
     });
   }, [pageByLink]);
-  console.log(data);
-  
+
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 gap-y-6 mx-[20px] mt-[20px]">
