@@ -21,7 +21,9 @@ const authSlice = createSlice({
       state.login.loggedIn = false;
     },
     updatedSuccess: (state, action) => {},
-    updatedTokenSuccess: (state, action) => {},
+    updatedTokenSuccess: (state, action) => {
+      state.login.curentCustomer.accessToken = action.payload.newAccessToken;
+    },
   },
 });
 export const {

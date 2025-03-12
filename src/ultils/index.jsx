@@ -51,6 +51,7 @@ export const updateCustomer = (id) => {
 };
 
 //interceptors
-export const refreshToken = () => {
-  return `/customer/refreshtoken`;
+export const refreshToken = async () => {
+  return Http.get(`/customer/refreshtoken`);
+ 
 };

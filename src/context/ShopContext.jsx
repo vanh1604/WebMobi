@@ -19,6 +19,7 @@ const ShopContextProvider = ({ children }) => {
         },
       });
       
+      
       setProducts(response.data.data.docs);
 
       // setProducts(response.data.data.docs);
