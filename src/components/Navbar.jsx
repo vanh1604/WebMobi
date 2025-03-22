@@ -14,6 +14,7 @@ const Navbar = () => {
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
   const [open, setOpen] = useState(false);
+ 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const User = useSelector((state) => state.auth.login.curentCustomer);
@@ -34,8 +35,6 @@ const Navbar = () => {
     dispatch(loggoutSuccess());
     try {
       const res = await Http.get(logOut(User._id));
-      console.log(res);
-      
       if (res.status === 200) {
         toast.success("Logout successful");
         navigate("/login");
@@ -125,6 +124,8 @@ const Navbar = () => {
           >
             <div className="flex relative">
               <li
+                
+                
                 className="px-[20px] hover:bg-pink-200"
                 onMouseDown={() => setOpen(!open)}
               >
@@ -143,6 +144,7 @@ const Navbar = () => {
                 <Link
                   to={"/cart"}
                   onClick={() => setOpen(false)}
+                  
                   className="cursor-pointer hover:bg-amber-600 px-2 py-1"
                 >
                   Giỏ hàng của bạn là {totalCart}
@@ -150,6 +152,7 @@ const Navbar = () => {
                 <Link
                   to={"/history-order"}
                   onClick={() => setOpen(false)}
+                  
                   className="cursor-pointer hover:bg-amber-600 px-2 py-1"
                 >
                   Đơn hàng đã mua
@@ -162,7 +165,7 @@ const Navbar = () => {
           </NavLink>
           {login ? (
             <div className="flex items-center justify-center gap-2">
-              <p>{User.fullName}</p>
+              <p className="text-md cursor-pointer hover:bg-pink-200 px-2 py-1" onClick={()=> navigate(`/user/${User._id}`)}>{User.fullName}</p>
               <button
                 className="hover:bg-pink-200 px-2 py-1 rounded-2xl cursor-pointer"
                 onClick={() => {

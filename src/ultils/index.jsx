@@ -40,11 +40,11 @@ export const logOut = (id) => {
 export const OrderHistory = (id) => {
   return `/customers/${id}/orders`;
 };
-export const OrderDetail = (id) => {
-  return `/customers/orders/${id}`;
+export const OrderDetailProduct = (id) => {
+  return `/customer/orders/${id}`;
 };
 export const OrderCancel = (id) => {
-  return `/customers/orders/${id}/canceled`;
+  return `/customer/orders/${id}/canceled`;
 };
 export const updateCustomer = (id) => {
   return `/customers/${id}/update`;

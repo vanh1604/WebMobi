@@ -15,7 +15,6 @@ Http.interceptors.request.use(
     const loggedIn = login?.loggedIn;
     if (loggedIn) {
       const accessToken = login.curentCustomer.accessToken;
-      console.log(`accessToken:::${accessToken}`);
       config.headers["token"] = `Bearer ${accessToken}`;
     }
     return config;

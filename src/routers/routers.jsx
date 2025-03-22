@@ -10,6 +10,8 @@ import SuccessOrder from "../pages/SuccessOrder";
 import Category from "../pages/Category";
 import AuthRequired from "../AuthRequired";
 import HistoryOrder from "../pages/HistoryOrder";
+import OrderDetail from "../pages/OrderDetail";
+import UserInfor from "../pages/UserInfor";
 export default [
   {
     path: "/",
@@ -50,6 +52,14 @@ export default [
   {
     path: "/history-order",
     element: HistoryOrder,
+  },
+  {
+    path: "/history-order/:id",
+    element: OrderDetail,
+  },
+  {
+    path: "/user/:id",
+    element: UserInfor,
   },
   {
     path: "*",

@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api/v1": {
-        target: "https://nodejs-api-tk2t.onrender.com",
+        target: "https://vietpro-nodejs-api.onrender.com",
         changeOrigin: true,
         secure: false,
       },

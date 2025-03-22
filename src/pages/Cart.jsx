@@ -12,7 +12,7 @@ import Http from "../service/Api";
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const login = useSelector((state) => state.auth.login.loggedIn);
   const user = useSelector((state) => state.auth.login.curentCustomer);
   const cart = useSelector((state) => state.cart.items);

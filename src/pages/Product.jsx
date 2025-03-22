@@ -64,16 +64,16 @@ const Product = () => {
   const fetchComments = async () => {
     try {
       const res = await Http.get(getComments(productId));
-
       setComments(res.data.data.docs);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
   };
+
   useEffect(() => {
     fetchComments();
     fetchProductData();
-  }, [productId, comments]);
+  }, [productId]);
 
   return productData ? (
     <div className="mx-auto gap-y-6 mt-[20px] w-3/4">
