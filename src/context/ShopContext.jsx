@@ -1,9 +1,9 @@
-import React, { createContext, useEffect, useState } from "react";
-import axios from "axios";
+import { createContext, useEffect, useState } from "react";
+
 import { toast } from "react-toastify";
 
 import { getProducts } from "../ultils";
-import { BASE_API } from "../constants";
+
 import Http from "../service/Api";
 
 export const ShopContext = createContext();
